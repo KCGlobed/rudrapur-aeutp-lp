@@ -47,7 +47,7 @@ function initTracking() {
         }
     });
 
-    
+
     // Only touch storage if this visit actually carries tracking params.
     // This prevents a new partial UTM set merging with old leftover values.
     if (hasAnyParam) {
@@ -476,6 +476,7 @@ var DEADLINE = new Date('2026-08-10T23:59:59+05:30').getTime();
                 citySelect.innerHTML = '<option value="" disabled selected>City</option>';
             }
         });
+        
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             if (!validate(form)) return;
