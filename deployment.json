@@ -1,0 +1,18 @@
+{
+    "version": 1,
+    "project": {
+        "name": "rudrapur-aeutp-lp",
+        "runtime": "static",
+        "repository": "KCGlobed/rudrapur-aeutp-lp",
+        "branch": "main"
+    },
+    "deployment": {
+        "keepReleases": 5
+    },
+    "runtimeConfig": {},
+    "web": {
+        "domain": "rudrapuraeutp.gccschool.com",
+        "ssl": true,
+        "sslEmail": "kcglobed@gmail.com"
+    }
+}
