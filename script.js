@@ -501,7 +501,6 @@ var DEADLINE = new Date('2026-08-10T23:59:59+05:30').getTime();
                 ...getTrackingParams()
             };
             
-
             var baseUrl = window.GCC_Base_url || "https://gccwebsite-admin-backend-738131651355.asia-south1.run.app";
 
             var submitBtn = form.querySelector('button[type="submit"]');
