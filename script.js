@@ -47,6 +47,7 @@ function initTracking() {
         }
     });
 
+    
     // Only touch storage if this visit actually carries tracking params.
     // This prevents a new partial UTM set merging with old leftover values.
     if (hasAnyParam) {
