@@ -3106,17 +3106,7 @@
           + '<form id="lead-form-dummy" onsubmit="return false;">'
           + '<div class="f-stack">'
           + '<input class="f-in" id="f-name" type="text" placeholder="Full name" autocomplete="name"><span class="f-err" id="e-name">Please enter your full name</span>'
-          + '<div style="display: flex; gap: 8px;">'
-          + '<input class="f-in" id="f-phone" type="tel" placeholder="WhatsApp / phone number" autocomplete="tel" inputmode="numeric" maxlength="14" style="flex: 1;">'
-          + '<button type="button" class="btn" id="send-otp-btn" style="padding: 0 16px; border: 1px solid var(--amber); background: var(--amber); color: black;  border-radius: 6px; font-weight: 600; white-space: nowrap; cursor: pointer;">Send OTP</button>'
-          + '</div>'
-          + '<span class="f-err" id="e-phone">Enter a valid 10-digit Indian mobile number</span>'
-          + '<div id="otp-section" style="display: none; gap: 8px; margin-top: 8px;">'
-          + '<input class="f-in" id="f-otp" type="text" placeholder="Enter OTP" autocomplete="off" inputmode="numeric" maxlength="6" style="flex: 1;">'
-          + '<button type="button" class="btn btn-amber" id="verify-otp-btn" style="padding: 0 16px; border-radius: 6px; font-weight: 600; white-space: nowrap; cursor: pointer;">Verify</button>'
-          + '</div>'
-          + '<span class="f-err" id="e-otp">Invalid OTP</span>'
-          + '<div id="e-otp-success" style="color: #22c55e; display: none; font-size: 13px; font-weight: 600; margin-bottom: 12px; margin-top: -6px;">✓ Number verified successfully</div>'
+          + '<input class="f-in" id="f-phone" type="tel" placeholder="WhatsApp / phone number" autocomplete="tel" inputmode="numeric" maxlength="14"><span class="f-err" id="e-phone">Enter a valid 10-digit Indian mobile number</span>'
           + '<input class="f-in" id="f-email" type="email" placeholder="Email address" autocomplete="email"><span class="f-err" id="e-email">Enter a valid email</span>'
           + '<select class="f-in" id="f-state" name="state" required><option value="" disabled selected>State</option></select><span class="f-err" id="e-state">Please select your state</span>'
           + '<select class="f-in" id="f-city" name="city" required><option value="" disabled selected>City</option></select><span class="f-err" id="e-city">Please select your city</span>'
@@ -3161,87 +3151,6 @@
           inp.addEventListener('input', function () { err(inp.id.slice(2), false); });
         });
 
-        // OTP Logic
-        state.isPhoneVerified = false;
-        var sendOtpBtn = document.getElementById('send-otp-btn');
-        var verifyOtpBtn = document.getElementById('verify-otp-btn');
-        var otpSection = document.getElementById('otp-section');
-        var phoneInp = document.getElementById('f-phone');
-        var otpInp = document.getElementById('f-otp');
-
-        sendOtpBtn.addEventListener('click', async function () {
-          var mobile = cleanPhone(phoneInp.value);
-          if (!/^[6-9]\d{9}$/.test(mobile)) {
-            err('phone', true);
-            document.getElementById('e-phone').textContent = "Enter a valid 10-digit mobile number to send OTP";
-            return;
-          }
-          sendOtpBtn.disabled = true;
-          sendOtpBtn.textContent = 'Sending...';
-
-          try {
-            var res = await fetch('https://www.gccschool.com/api/otp/send', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ mobile: mobile })
-            });
-            var data = await res.json();
-            if (res.ok && data.success) {
-              otpSection.style.display = 'flex';
-              sendOtpBtn.textContent = 'Resend OTP';
-              err('phone', false);
-              otpInp.focus();
-            } else {
-              err('phone', true);
-              document.getElementById('e-phone').textContent = data.statusMessage || data.message || "Failed to send OTP.";
-              sendOtpBtn.textContent = 'Send OTP';
-            }
-          } catch (e) {
-            err('phone', true);
-            document.getElementById('e-phone').textContent = "Network error. Please try again.";
-            sendOtpBtn.textContent = 'Send OTP';
-          }
-          sendOtpBtn.disabled = false;
-        });
-
-        verifyOtpBtn.addEventListener('click', async function () {
-          var mobile = cleanPhone(phoneInp.value);
-          var otp = otpInp.value.trim();
-          if (otp.length < 4) {
-            err('otp', true);
-            document.getElementById('e-otp').textContent = "Enter the complete OTP";
-            return;
-          }
-          verifyOtpBtn.disabled = true;
-          verifyOtpBtn.textContent = 'Verifying...';
-
-          try {
-            var res = await fetch('https://www.gccschool.com/api/otp/verify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ mobile: mobile, otp: otp })
-            });
-            var data = await res.json();
-            if (res.ok && data.success) {
-              state.isPhoneVerified = true;
-              otpSection.style.display = 'none';
-              sendOtpBtn.style.display = 'none';
-              phoneInp.disabled = true;
-              phoneInp.style.backgroundColor = '#f1f5f9';
-              document.getElementById('e-otp-success').style.display = 'block';
-              err('otp', false);
-              err('phone', false);
-            } else {
-              err('otp', true);
-              document.getElementById('e-otp').textContent = data.statusMessage || data.message || "Invalid OTP.";
-            }
-          } catch (e) {
-            err('otp', true);
-            document.getElementById('e-otp').textContent = "Network error. Please try again.";
-          }
-          verifyOtpBtn.disabled = false;
-          if (!state.isPhoneVerified) verifyOtpBtn.textContent = 'Verify';
-        });
 
         document.getElementById('f-name').focus();
       }
@@ -3264,12 +3173,7 @@
         var ok = true;
         if (name.length < 3) { err('name', true); ok = false; }
         if (!/^[6-9]\d{9}$/.test(phone)) { err('phone', true); ok = false; }
-        if (!state.isPhoneVerified) {
-          err('phone', true);
-          var ePhone = document.getElementById('e-phone');
-          if (ePhone) ePhone.textContent = "Please verify your mobile number with OTP first.";
-          ok = false;
-        }
+
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err('email', true); ok = false; }
         if (!stateSel) { err('state', true); ok = false; }
         if (!city) { err('city', true); ok = false; }
