@@ -476,7 +476,7 @@ var DEADLINE = new Date('2026-08-10T23:59:59+05:30').getTime();
                 citySelect.innerHTML = '<option value="" disabled selected>City</option>';
             }
         });
-        
+
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             if (!validate(form)) return;
@@ -502,7 +502,7 @@ var DEADLINE = new Date('2026-08-10T23:59:59+05:30').getTime();
                 attend_from: data.attend_from || "",
                 ...getTrackingParams()
             };
-            
+
             var baseUrl = window.GCC_Base_url || "https://gccwebsite-admin-backend-738131651355.asia-south1.run.app";
 
             var submitBtn = form.querySelector('button[type="submit"]');
@@ -715,11 +715,11 @@ document.querySelectorAll(".video-card").forEach(card => {
             iframe.title = "YouTube video player";
             iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share");
             iframe.setAttribute("allowfullscreen", "true");
-            
+
             const img = videoThumb.querySelector("img");
             if (img) img.style.display = "none";
             playBtn.classList.add("hide");
-            
+
             videoThumb.appendChild(iframe);
         });
     }
