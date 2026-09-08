@@ -1,5 +1,5 @@
-const VITE_API_BASE_URL = "https://gccwebsite-admin-backend-738131651355.asia-south1.run.app";
-// const VITE_API_PROD_URL="https://gccwebsite-admin-prod-backend-738131651355.asia-south1.run.app";
+const VITE_API_BASE_URL = "https://gcc-backend-dev.gccschool.com";
+// const VITE_API_PROD_URL="https://gcc-backend-prod.gccschool.com";
 
 // window.GCC_Base_url = VITE_API_BASE_URL;
 window.GCC_Base_url = VITE_API_PROD_URL;
@@ -407,7 +407,7 @@ var DEADLINE = new Date('2026-08-10T23:59:59+05:30').getTime();
         bookSlotBtn.disabled = true;
         bookSlotBtn.textContent = 'Booking Slot...';
 
-        var baseUrl = window.GCC_Base_url || "https://gccwebsite-admin-backend-738131651355.asia-south1.run.app";
+        var baseUrl = window.GCC_Base_url || "https://gcc-backend-dev.gccschool.com";
 
         var parts = selectedDateStr.split('-');
         var yyyymmdd = parts[2] + '-' + parts[1] + '-' + parts[0];
@@ -503,7 +503,7 @@ var DEADLINE = new Date('2026-08-10T23:59:59+05:30').getTime();
                 ...getTrackingParams()
             };
 
-            var baseUrl = window.GCC_Base_url || "https://gccwebsite-admin-backend-738131651355.asia-south1.run.app";
+            var baseUrl = window.GCC_Base_url || "https://gcc-backend-dev.gccschool.com";
 
             var submitBtn = form.querySelector('button[type="submit"]');
             var originalBtnText = submitBtn ? submitBtn.textContent : 'Submit';
